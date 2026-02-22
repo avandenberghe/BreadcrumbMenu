@@ -7,7 +7,7 @@
  *
  */
 
-namespace breadcrumbmenu\event;
+namespace paybas\breadcrumbmenu\event;
 
 /**
 * @ignore
