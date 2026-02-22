@@ -1,6 +1,12 @@
 ### Changelog 
 
 
+- 1.1.1 (22/02/2026)
+  - [FIX] additional PHP 8 hardening: guard against "array offset on bool" in build_tree_rec/build_output
+  - [FIX] initialized $forum_list and $tree variables to prevent undefined variable warnings
+  - [FIX] added isset() guards in get_crumb_parents() for missing forum/parent keys
+  - [FIX] replaced deprecated sizeof() with count()
+
 - 1.1.0 (17/04/2021)
   - [FIX] #3 enable dropdown for all breadcrumb menus
   - [FIX] php 8.0 compatible

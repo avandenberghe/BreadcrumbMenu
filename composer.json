@@ -2,9 +2,9 @@
     "name": "paybas/breadcrumbmenu",
     "type": "phpbb-extension",
     "description": "This extension adds a drop-down menu to each breadcrumb, containing the sibling and child fora.",
-    "homepage": "https://github.com/Sajaki/BreadcrumbMenu",
-    "version": "1.1.0",
-    "time": "2021-04-17",
+    "homepage": "https://github.com/avandenberghe/BreadcrumbMenu",
+    "version": "1.1.1",
+    "time": "2026-02-22",
     "license": "GPL-2.0-only",
     "authors": [{
     		"name": "PayBas",

@@ -7,7 +7,7 @@
  *
  */
 
-namespace paybas\breadcrumbmenu\event;
+namespace breadcrumbmenu\event;
 
 /**
 * @ignore
@@ -129,6 +129,7 @@ class listener implements EventSubscriberInterface
 		$result = $this->db->sql_query($sql, 600);
 
 		// We include the forum root/index to make tree traversal easier
+		$forum_list = array();
 		$forum_list[0] = array(
 			'forum_id'      => '0',
 			'forum_name'    => $this->user->lang['FORUMS'],
@@ -200,14 +201,14 @@ class listener implements EventSubscriberInterface
 	{
 		$parents = array();
 
-		if ($current_id == 0 || empty($list))
+		if ($current_id == 0 || empty($list) || !isset($list[$current_id]))
 		{
 			return $parents; // skip if we're not viewing a forum right now
 		}
 
 		$parent_id = $list[$current_id]['parent_id'];
 
-		while ($parent_id)
+		while ($parent_id && isset($list[$parent_id]))
 		{
 			$parents[] = (int) $parent_id;
 			$parent_id = $list[$parent_id]['parent_id'];
@@ -261,7 +262,8 @@ class listener implements EventSubscriberInterface
 	public function build_tree($list)
 	{
 		reset($list);
-		$tree[0] = $this->build_tree_rec($list, sizeof($list));
+		$tree = array();
+		$tree[0] = $this->build_tree_rec($list, count($list));
 
 		return $tree;
 	}
@@ -300,7 +302,11 @@ class listener implements EventSubscriberInterface
 				else
 				{
 					// Let our child retrieve its own ones
-					$tree['children'][] = $this->build_tree_rec($list, $length);
+					$child = $this->build_tree_rec($list, $length);
+					if ($child !== false)
+					{
+						$tree['children'][] = $child;
+					}
 				}
 			}
 		}
@@ -320,6 +326,11 @@ class listener implements EventSubscriberInterface
 
 		foreach ($tree as $values)
 		{
+			if (!is_array($values))
+			{
+				continue;
+			}
+
 			if (isset($values['children']))
 			{
 				$childhtml = $this->build_output($values['children']);
